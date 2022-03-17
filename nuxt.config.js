@@ -7,7 +7,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'google-messages',
+    title: 'messages',
     htmlAttrs: {
       lang: 'en'
     },
@@ -22,13 +22,17 @@ export default {
     ]
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
+  router: {
+    middleware: ['password-protect']
+  },
+
   css: [
+    './assets/css/main.scss',
+    '@fortawesome/fontawesome-free/css/all.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
+
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -37,11 +41,30 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
+    '@nuxtjs/moment',
+    '@nuxtjs/fontawesome',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    'nuxt-password-protect',
   ],
+
+  fontawesome: {
+    icons: {
+      solid: [ "faBars" ],
+    }
+  },
+
+  passwordProtect: {
+    enabled: true,
+    formPath: '/password',
+    password: 'pass',
+    tokenSeed: 3343490,
+    queryString: '_pw',
+    cookieName: '_password'
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

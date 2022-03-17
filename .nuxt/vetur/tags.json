@@ -1,8 +1,11 @@
 {
-  "NuxtLogo": {
-    "description": "Auto imported from components/NuxtLogo.vue"
+  "Menu": {
+    "description": "Auto imported from components/Menu.vue"
   },
-  "Tutorial": {
-    "description": "Auto imported from components/Tutorial.vue"
+  "Header": {
+    "description": "Auto imported from components/Header/index.vue"
+  },
+  "Messages": {
+    "description": "Auto imported from components/Messages/index.vue"
   }
 }

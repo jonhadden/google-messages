@@ -1,0 +1,21 @@
+.button {
+    padding: 8px 12px;
+    background: #fff;
+    border: rgb(77, 77, 77) solid 1px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.3);
+    font-weight: 500;
+    font-size: 0.85rem;
+
+    &.primary {
+        background: #ae00ae;
+        border-color: #270027;
+        color: #fff;
+    }
+
+    &.icon {
+        padding: 10px;
+        border: none;
+        background: transparent;
+    }
+}

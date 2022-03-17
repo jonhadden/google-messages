@@ -1,5 +1,6 @@
-export const NuxtLogo = () => import('../../components/NuxtLogo.vue' /* webpackChunkName: "components/nuxt-logo" */).then(c => wrapFunctional(c.default || c))
-export const Tutorial = () => import('../../components/Tutorial.vue' /* webpackChunkName: "components/tutorial" */).then(c => wrapFunctional(c.default || c))
+export { default as Menu } from '../../components/Menu.vue'
+export { default as Header } from '../../components/Header/index.vue'
+export { default as Messages } from '../../components/Messages/index.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

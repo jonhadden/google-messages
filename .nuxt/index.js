@@ -13,6 +13,10 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 /* Plugins */
 
 import nuxt_plugin_plugin_2ea1f27e from 'nuxt_plugin_plugin_2ea1f27e' // Source: ./components/plugin.js (mode: 'all')
+import nuxt_plugin_passwordprotect_74e94838 from 'nuxt_plugin_passwordprotect_74e94838' // Source: ./password-protect.js (mode: 'all')
+import nuxt_plugin_axios_45c6e952 from 'nuxt_plugin_axios_45c6e952' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_fontawesome_fe877d4e from 'nuxt_plugin_fontawesome_fe877d4e' // Source: ./fontawesome.js (mode: 'all')
+import nuxt_plugin_moment_55bf1dbe from 'nuxt_plugin_moment_55bf1dbe' // Source: ./moment.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -62,7 +66,7 @@ async function createApp(ssrContext, config = {}) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"title":"google-messages","htmlAttrs":{"lang":"en"},"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":""},{"name":"format-detection","content":"telephone=no"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
+    head: {"title":"messages","htmlAttrs":{"lang":"en"},"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":""},{"name":"format-detection","content":"telephone=no"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
 
     router,
     nuxt: {
@@ -178,6 +182,22 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_plugin_2ea1f27e === 'function') {
     await nuxt_plugin_plugin_2ea1f27e(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_passwordprotect_74e94838 === 'function') {
+    await nuxt_plugin_passwordprotect_74e94838(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_axios_45c6e952 === 'function') {
+    await nuxt_plugin_axios_45c6e952(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_fontawesome_fe877d4e === 'function') {
+    await nuxt_plugin_fontawesome_fe877d4e(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_moment_55bf1dbe === 'function') {
+    await nuxt_plugin_moment_55bf1dbe(app.context, inject)
   }
 
   // Lock enablePreview in context

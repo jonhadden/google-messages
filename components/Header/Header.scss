@@ -1,0 +1,27 @@
+.messages-header {
+    background: purple;
+    border-bottom: rgb(71, 0, 71) solid 2px;
+    color: white;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2), inset 0 1px 1px rgb(192, 66, 192);
+
+    button {
+        background: transparent;
+        border: none;
+        color: #fff;
+        border-radius: 4px;
+        padding: 20px;
+        margin-right: 10px;
+
+        &:hover {
+            background: rgb(92, 0, 92);
+        }
+    }
+
+    h1 {
+        flex: 1;
+        margin-bottom: 0;
+        text-shadow: 0 1px 1px 0 rgb(36, 0, 36);
+    }
+}

@@ -1,0 +1,51 @@
+.messages {
+    article {
+        border-bottom: #ddd solid 1px;
+        display: flex;
+        .message-content, .item-actions {
+            transition: all 200ms;
+        }
+        .message-content {
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            gap: 1rem;
+        }
+        img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+        section {
+            flex: 1;
+        }
+        header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 4px;
+
+        }
+        h2, p {
+            margin-bottom: 0;
+            line-height: 1;
+        }
+        h2 {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        p {
+            font-size: 0.75rem;
+            line-height: 1;
+            color: #808080;
+        }
+        main {
+            font-size: 0.85rem;
+        }
+        .item-actions {
+            background: #bbb;
+            color: #333;
+            width: 0;
+        }
+    }
+}

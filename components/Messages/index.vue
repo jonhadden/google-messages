@@ -1,38 +1,85 @@
 <template>
 	<div class="messages">
-		<article 
-			v-for="message in messages" 
-			:key="message.id"
-			@touchstart="handleTouchStart"
-			@touchmove="handleTouchMove($event, message.id)"
-			:id="message.id">
-			<div class="message-content" :id="`message-content-${message.id}`">
-				<img v-if="message.author" v-bind:src="authorImageUrl(message.author.photoUrl)" v-bind:alt="message.author.name" />
-				<section>
-					<header>
-						<h2 v-if="message.author">{{ message.author.name }}</h2>
-						<p>{{ $moment(message.updated).format('MMM Do, h:mm:ss a') }}</p>
-					</header>
-					<main>
-						{{ message.content | truncate(140) }}
-					</main>
-				</section>
-			</div>
-			<div class="item-actions" :id="`message-actions-${message.id}`"></div>
-		</article>
+		<swipe-list
+			v-if="dataReady"
+			ref="list"
+			class="card"
+			:disabled="!enabled"
+			:items="messages"
+			item-key="id"
+			@swipeout:click="itemClick"
+		>
+			<template v-slot="{ item, index, revealLeft, revealRight, close }">
+				<div class="card-content">
+					<img class="author-image" v-if="item.author" v-bind:src="authorImageUrl(item.author.photoUrl)" v-bind:alt="item.author.name" />
+					<section>
+						<header>
+							<h2 v-if="item.author">{{ item.author.name }}</h2>
+							<p>{{ $moment(item.updated).format('MMM Do, h:mm:ss a') }}</p>
+						</header>
+						<main>
+							{{ item.content | truncate(140) }}
+						</main>
+					</section>
+				</div>
+			</template>
+			<template v-slot:left="{ item, close }">
+				<div class="swipeout-action red" title="remove" @click="remove(item)">
+					<i class="fa fa-trash"></i>
+				</div>
+				<div class="swipeout-action purple" @click="close">
+					<i class="fa fa-close"></i>
+				</div>
+			</template>
+			<template v-slot:right="{ item }">
+				<div class="swipeout-action green">
+					<i class="fa fa-heart"></i>
+				</div>
+			</template>
+			<template v-slot:empty>
+				<div>
+					<!-- change mockSwipeList to an empty array to see this slot in action  -->
+					list is empty ( filtered or just empty )
+				</div>
+			</template>
+		</swipe-list>
+
+		<div v-else class="loading">
+			<i class="fa-solid fa-spinner fa-pulse"></i>
+			<p>Loading messages...</p>
+		</div>
+
+		<button 
+			type="button" 
+			class="item-removed" 
+			v-if="itemRemoved">
+			<span>Message was deleted</span>
+			<span class="button-label">Undo</span>
+		</button>
 	</div>
 </template>
 <script>
+
+import { SwipeList, SwipeOut } from 'vue-swipe-actions';
+import 'vue-swipe-actions/dist/vue-swipe-actions.css';
+
 export default {
   name: 'Messages',
+	components: {
+    SwipeOut,
+    SwipeList
+  },
   data() {
       return {
-		baseUrl: "http://message-list.appspot.com/",
-        messages: [],
-		pageToken: '',
-		count: 10,
-		xDown: null,
-		yDown: null,
+				baseUrl: "http://message-list.appspot.com/",
+				dataReady: false,
+				messages: [],
+				pageToken: '',
+				count: 10,
+				xDown: null,
+				yDown: null,
+				enabled: true,
+				itemRemoved: false,
       }
   },
   filters: {
@@ -41,70 +88,61 @@ export default {
 		}
 	},
   methods: {
-	getTouches(event) {
-		return event.touches
-	},                                                     
-	handleTouchStart(event) {
-		const firstTouch = this.getTouches(event)[0];                                      
-		this.xDown = firstTouch.clientX;
-		this.yDown = firstTouch.clientY;
-	},                                                                  
-	handleTouchMove(event, messageId) {
-		const messageInList = document.getElementById(messageId);
-		const messageContent = document.getElementById("message-content-" + messageId);
-		const messageActions = document.getElementById("message-actions-" + messageId);
+		remove(item) {
+			this.messages = this.messages.filter(i => i !== item);
+			
+			setTimeout(() => {
+				this.itemRemoved = true;
+				setTimeout(() => {
+					this.itemRemoved = false;
+				}, 5000);
+			}, 250);
 
-		if ( ! this.xDown || ! this.yDown ) {
-			return;
-		}
+		},
+		itemClick(e) {
+			console.log(e, "item click");
+		},
+		getIntialMessages () {
 
-		let xUp = event.touches[0].clientX;                                    
-		let yUp = event.touches[0].clientY;
+			setTimeout(() => {
+				this.$axios.$get(this.baseUrl + `messages?limit=${ this.count }`)
+					.then(response => {
+						this.pageToken = response.pageToken;
+						this.messages = response.messages;
+						this.dataReady = true;
+					}).catch(error => {
+						console.log(error);
+					})
+			}, 3000);
+		},
+		watchForLazyLoading () {
+		const body = document.body;
+		const scrollUp = "scroll-up";
+		const scrollDown = "scroll-down";
+		let lastScroll = 0;
 
-		let xDiff = this.xDown - xUp;
-		let yDiff = this.yDown - yUp;
-																			
-		if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
-			if ( xDiff > 0 ) {
-				/* right swipe */ 
-				console.log("right - xDiff", xDiff);
-
-				messageInList.style.marginLeft = "-" + xDiff;
-				messageContent.style.width = (100 - xDiff) + "%";
-				messageActions.style.width = xDiff + "%";
-
-				console.log(messageInList);
-				if (xDiff > 30) {
-					messageActions.style.backgroundColor = '#ff0000';
-					messageActions.style.color = '#ffffff';
-				} else {
-					messageActions.style.backgroundColor = '#bbbbbb';
-					messageActions.style.color = '#333333';
-				}
-
-			} else {
-				/* left swipe */
-				console.log("left - xDiff", xDiff);
-			}                       
-		} else {
-			if ( yDiff > 0 ) {
-				/* down swipe */ 				
-			} else { 
-				/* up swipe */
-			}                                                                 
-		}                                          
-	},
-	getIntialMessages () {
-		this.$axios.$get(this.baseUrl + `messages?limit=${ this.count }`)
-			.then(response => {
-				this.pageToken = response.pageToken;
-				this.messages = response.messages;
-			}).catch(error => {
-				console.log(error);
-			})
-	},
-	watchForLazyLoading () {
 		window.onscroll = () => {
+			const currentScroll = window.pageYOffset;
+			if (currentScroll <= 0) {
+				body.classList.remove(scrollUp);
+				return;
+			}
+		
+			if (currentScroll > lastScroll && !body.classList.contains(scrollDown)) {
+				// down
+				body.classList.remove(scrollUp);
+				body.classList.add(scrollDown);
+			} else if (
+				currentScroll < lastScroll &&
+				body.classList.contains(scrollDown)
+			) {
+				// up
+				body.classList.remove(scrollDown);
+				body.classList.add(scrollUp);
+			}
+			lastScroll = currentScroll;
+
+			// Infinite Scrolling
 			let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 2 >= document.documentElement.offsetHeight
 			if (bottomOfWindow) {
 				console.log("bottom of window", bottomOfWindow);

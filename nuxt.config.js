@@ -68,6 +68,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: [
+      'nuxt-password-protect',
+      'vue-swipe-actions',
+    ],
     loaders: {
       sass: {
         implementation: require('sass'),

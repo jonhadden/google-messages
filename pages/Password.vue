@@ -14,8 +14,7 @@
           <input 
             name="prototypePassword"
             v-model="methodLoginValue" 
-            type="password" 
-            placeholder="Prototype Password"
+            type="password"
             ref="passwordField"
             class="inverse">
 

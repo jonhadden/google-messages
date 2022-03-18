@@ -1,17 +1,11 @@
 .messages {
-    article {
+    z-index: 1;
+    .card-content {
         border-bottom: #ddd solid 1px;
+        padding: 10px;
         display: flex;
-        .message-content, .item-actions {
-            transition: all 200ms;
-        }
-        .message-content {
-            width: 100%;
-            padding: 10px;
-            display: flex;
-            gap: 1rem;
-        }
-        img {
+        gap: 1rem;
+        .author-image {
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -42,10 +36,53 @@
         main {
             font-size: 0.85rem;
         }
-        .item-actions {
-            background: #bbb;
-            color: #333;
-            width: 0;
+    }
+    .loading {
+        text-align: center;
+        margin-top: 80px;
+    }
+    .swipeout-action {
+        transition: transform .2s;
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        padding: 0 3rem;
+        cursor: pointer;
+        left: 0;
+        &.red {
+            color: #fff;
+            background-color: #ff3b30;
+        }
+        &.purple {
+            color: #fff;
+            background-color: #5856d6;
+        }
+        &.green {
+            color: #fff;
+            background-color: #4cd964;
+        }
+    }
+    .item-removed {
+        background: #673AB7;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.3);
+        color: #fff;
+        width: calc(100% - 20px);
+        padding: 10px 20px;
+        position: fixed;
+        z-index: 3;
+        bottom: 10px;
+        left: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+
+        .button-label {
+            background: #552b9e;
+            color: #fff;
+            border-radius: 4px;
+            border: none;
         }
     }
 }

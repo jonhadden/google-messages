@@ -1,17 +1,18 @@
 .messages-header {
-    background: purple;
-    border-bottom: rgb(71, 0, 71) solid 2px;
+    background: #673AB7;
+    border-bottom: #3c1b75 solid 1px;
+    z-index: 2;
     color: white;
     display: flex;
     align-items: center;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2), inset 0 1px 1px rgb(192, 66, 192);
+    transition: all 2s;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2), inset 0 2px 1px #825ac5;
 
     button {
         background: transparent;
         border: none;
         color: #fff;
-        border-radius: 4px;
-        padding: 20px;
+        padding: 14px 20px;
         margin-right: 10px;
 
         &:hover {
@@ -20,8 +21,17 @@
     }
 
     h1 {
+        font-size: 1.25rem;
         flex: 1;
         margin-bottom: 0;
         text-shadow: 0 1px 1px 0 rgb(36, 0, 36);
+    }
+}
+
+.scroll-up {
+    .messages-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
     }
 }

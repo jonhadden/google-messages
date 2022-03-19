@@ -1,7 +1,7 @@
 <template>
 	<div class="messages">
 		<swipe-list
-			v-if="dataReady"
+			v-if="dataReady && !apiError"
 			ref="list"
 			class="card"
 			:disabled="!enabled"
@@ -44,9 +44,14 @@
 			</template>
 		</swipe-list>
 
-		<div v-else class="loading">
+		<div v-if="!dataReady && !apiError" class="loading">
 			<i class="fa-solid fa-spinner fa-pulse"></i>
 			<p>Loading messages...</p>
+		</div>
+		
+		<div v-if="apiError" class="error">
+			<i class="fa-solid fa-bug"></i>
+			<p>There was a problem getting the messages. Please try refreshing the browser or try again in a few minutes.</p>
 		</div>
 
 		<button 
@@ -80,6 +85,7 @@ export default {
 				yDown: null,
 				enabled: true,
 				itemRemoved: false,
+				apiError: false,
       }
   },
   filters: {
@@ -105,14 +111,15 @@ export default {
 		getIntialMessages () {
 
 			setTimeout(() => {
-				this.$axios.$get(this.baseUrl + `messages?limit=${ this.count }`)
-					.then(response => {
-						this.pageToken = response.pageToken;
-						this.messages = response.messages;
-						this.dataReady = true;
-					}).catch(error => {
-						console.log(error);
-					})
+				this.$axios.$get(`/api/messages?limit=${this.count}`)
+				.then(response => {
+					this.pageToken = response.pageToken;
+					this.messages = response.messages;
+					this.dataReady = true;
+				}).catch(error => {
+					this.apiError = true;
+					console.log(error);
+				})
 			}, 3000);
 		},
 		watchForLazyLoading () {
@@ -146,14 +153,16 @@ export default {
 			let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 2 >= document.documentElement.offsetHeight
 			if (bottomOfWindow) {
 				console.log("bottom of window", bottomOfWindow);
-				this.$axios.$get(this.baseUrl + `messages?limit=${ this.count }&pageToken=${this.pageToken}`)
-					.then(response => {
-						const newMessages = response.messages;
-						newMessages.forEach(message => {
-							this.messages.push(message)
-						})
-						this.pageToken = response.pageToken;
-					});
+				this.$axios.$get(`/api/messages?limit=${this.count}&pageToken=${this.pageToken}`)
+				.then(response => {
+					const newMessages = response.messages;
+					newMessages.forEach(message => {
+						this.messages.push(message)
+					})
+					this.pageToken = response.pageToken;
+				}).catch(() => {
+					this.apiError = true;
+				});
 			}
 
       	};

@@ -3,7 +3,7 @@ export default {
   ssr: false,
 
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  target: 'server',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -17,6 +17,9 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ]
   },
 
   router: {
@@ -45,8 +48,26 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     'nuxt-password-protect',
   ],
+
+  axios: {
+    proxy: true,
+    credentials: false,
+    headers: {
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Headers' : '*',
+      'Access-Control-Allow-Methods' : '*'
+    }
+  },
+
+  proxy: {
+    "/api/": {
+      target: "http://message-list.appspot.com/",
+      pathRewrite: { "^/api/": "" }
+    }
+  },
 
   fontawesome: {
     icons: {

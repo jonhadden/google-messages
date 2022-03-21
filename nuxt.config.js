@@ -6,7 +6,7 @@ export default {
   target: 'static',
 
   server: {
-    port: process.env.PORT || 17068,
+    port: process.env.PORT,
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head

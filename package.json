@@ -21,6 +21,8 @@
     "vue-server-renderer": "^2.6.14",
     "vue-swipe-actions": "^2.0.0-beta.20",
     "vue-template-compiler": "^2.6.14",
+    "sass": "^1.49.9",
+    "sass-loader": "10.1.1",
     "webpack": "^4.46.0"
   },
   "devDependencies": {
@@ -34,8 +36,6 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^27.4.4",
     "jest": "^27.4.4",
-    "sass": "^1.49.9",
-    "sass-loader": "10.1.1",
     "ts-jest": "^27.1.1",
     "vue-jest": "^3.0.4"
   }

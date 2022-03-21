@@ -3,14 +3,12 @@
     "name": "Password",
     "path": "/Password",
     "component": "/Users/jonhadden/Desktop/NiceUX/Projects/Google/code/google-messages/pages/Password.vue",
-    "chunkName": "pages/Password",
-    "_name": "_600031b6"
+    "chunkName": "pages/Password"
   },
   {
     "name": "index",
     "path": "/",
     "component": "/Users/jonhadden/Desktop/NiceUX/Projects/Google/code/google-messages/pages/index.vue",
-    "chunkName": "pages/index",
-    "_name": "_7ed92132"
+    "chunkName": "pages/index"
   }
 ]

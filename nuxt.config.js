@@ -5,6 +5,10 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
+  server: {
+    port: process.env.PORT || 17068,
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'messages',

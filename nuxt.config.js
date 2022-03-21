@@ -57,7 +57,7 @@ export default {
     proxy: true,
     credentials: false,
     headers: {
-      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Origin' : 'http://jonhadden.com',
       'Access-Control-Allow-Headers' : '*',
       'Access-Control-Allow-Methods' : '*'
     }

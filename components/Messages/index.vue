@@ -76,7 +76,7 @@ export default {
   },
   data() {
       return {
-				baseUrl: "http://message-list.appspot.com/",
+				baseUrl: "http://message-list.appspot.com/messages",
 				dataReady: false,
 				messages: [],
 				pageToken: '',
@@ -111,7 +111,7 @@ export default {
 		getIntialMessages () {
 
 			setTimeout(() => {
-				this.$axios.$get(`/api/messages?limit=${this.count}`)
+				this.$axios.$get(this.baseUrl + `?limit=${this.count}`)
 				.then(response => {
 					this.pageToken = response.pageToken;
 					this.messages = response.messages;
@@ -152,8 +152,7 @@ export default {
 			// Infinite Scrolling
 			let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 2 >= document.documentElement.offsetHeight
 			if (bottomOfWindow) {
-				console.log("bottom of window", bottomOfWindow);
-				this.$axios.$get(`/api/messages?limit=${this.count}&pageToken=${this.pageToken}`)
+				this.$axios.$get(this.baseUrl + `?limit=${this.count}&pageToken=${this.pageToken}`)
 				.then(response => {
 					const newMessages = response.messages;
 					newMessages.forEach(message => {

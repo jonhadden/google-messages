@@ -54,19 +54,12 @@ export default {
   ],
 
   axios: {
-    proxy: true,
+    proxy: false,
     credentials: false,
     headers: {
       'Access-Control-Allow-Origin' : 'http://jonhadden.com',
       'Access-Control-Allow-Headers' : '*',
       'Access-Control-Allow-Methods' : '*'
-    }
-  },
-
-  proxy: {
-    "/api/": {
-      target: "http://message-list.appspot.com/",
-      pathRewrite: { "^/api/": "" }
     }
   },
 
